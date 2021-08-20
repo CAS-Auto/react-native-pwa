@@ -9,6 +9,13 @@ export default function App() {
     <WebView 
       style={styles.container}
       source={{ uri: 'https://casautodev.wpengine.com/' }}
+      containerStyle={{
+        width: '100%',
+        height: 500,
+        marginTop:50,
+        backgroundColor: "white",
+        flex: 1,
+    }}
     />
     
   );
