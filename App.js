@@ -14,7 +14,7 @@ export default function App() {
         containerStyle={{
           width: '100%',
           height: 500,
-          marginTop:50,
+          marginTop:20,
           backgroundColor: "white",
           flex: 1,
       }}
