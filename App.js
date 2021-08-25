@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, ScrollView ,Dimensions, RefreshControl} from 'react-native';
 import { WebView } from 'react-native-webview';
 
-export default function App() {
+export default function App({ isRefresh, onRefresh, ...webViewProps }) {
   const [isLoading, setLoading] = useState(false);
-
+  const [height, setHeight] = useState(Dimensions.get('screen').height);
+  const [isEnabled, setEnabled] = useState(typeof onRefresh === 'function');
   const LoadingIndicatorView = () => {
     return (
       <View style={styles.activityIndicatorStyle}>
@@ -15,9 +16,24 @@ export default function App() {
 
   }
   return (
-    <SafeAreaView style={styles.container} >
+    <ScrollView contentContainerStyle={styles.container} 
+    onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
+    refreshControl={
+      <RefreshControl
+        onRefresh={onRefresh}
+        refreshing={isRefresh}
+        enabled={isEnabled}
+      />
+    }
+    >
 
       <WebView
+       onScroll={(e) =>
+          setEnabled(
+            typeof onRefresh === 'function' &&
+              e.nativeEvent.contentOffset.y === 0
+          )
+       }
         style={{ flex: 1 }}
         source={{ uri: 'https://casautodev.wpengine.com/' }}
         containerStyle={{
@@ -42,7 +58,7 @@ export default function App() {
 
       {isLoading && <LoadingIndicatorView />}
 
-    </SafeAreaView>
+    </ScrollView>
 
 
   );
@@ -64,7 +80,8 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor:'white'
   }
 
 });
