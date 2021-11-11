@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, ScrollView ,Dimensions, RefreshControl} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView,Dimensions, RefreshControl} from 'react-native';
 import { WebView } from 'react-native-webview';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function App({ isRefresh, onRefresh, ...webViewProps }) {
   const [isLoading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ export default function App({ isRefresh, onRefresh, ...webViewProps }) {
 
   }
   return (
+    <SafeAreaView style={styles.containerSafe}>
     <ScrollView contentContainerStyle={styles.container} 
     onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
     refreshControl={
@@ -59,6 +61,7 @@ export default function App({ isRefresh, onRefresh, ...webViewProps }) {
       {isLoading && <LoadingIndicatorView />}
 
     </ScrollView>
+    </SafeAreaView>
 
 
   );
@@ -70,7 +73,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 50,
+  },
+  containerSafe:{
+    flex:1
   },
   activityIndicatorStyle: {
     flex: 1,
