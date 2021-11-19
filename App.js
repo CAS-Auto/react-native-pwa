@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView,Dimensions, RefreshControl} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView,Dimensions, RefreshControl, Linking} from 'react-native';
 import { WebView } from 'react-native-webview';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function App({ isRefresh, onRefresh, ...webViewProps }) {
   const [isLoading, setLoading] = useState(false);
   const [height, setHeight] = useState(Dimensions.get('screen').height);
   const [isEnabled, setEnabled] = useState(typeof onRefresh === 'function');
+  
   const LoadingIndicatorView = () => {
     return (
       <View style={styles.activityIndicatorStyle}>
@@ -40,7 +41,7 @@ export default function App({ isRefresh, onRefresh, ...webViewProps }) {
         source={{ uri: 'https://casautodev.wpengine.com/' }}
         containerStyle={{
           width: '100%',
-          height: 500,
+          height,
 
           backgroundColor: "white",
           flex: 1,
@@ -59,10 +60,10 @@ export default function App({ isRefresh, onRefresh, ...webViewProps }) {
       />
 
       {isLoading && <LoadingIndicatorView />}
-
+       
     </ScrollView>
     </SafeAreaView>
-
+  
 
   );
 }
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     backgroundColor:'white'
-  }
+  },
+ 
 
 });
